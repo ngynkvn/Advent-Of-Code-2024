@@ -8,11 +8,24 @@ def main():
     right = sorted(map(int, [line[1] for line in ls]))
 
     # compute the differences between them
-    dists = 0
+    answer = 0
     for li, ri in zip(left, right):
-        dists += abs(li - ri)
+        answer += abs(li - ri)
 
-    print(dists)
+    print("Part 1:", answer)
+
+    # This time, you'll need to figure out exactly how often each
+    # number from the left list appears in the right list. Calculate a total
+    # similarity score by adding up each number in the left list after
+    # multiplying it by the number of times that number appears in the right
+    # list.
+    from collections import Counter
+
+    counts = Counter(right)
+    answer = 0
+    for li in left:
+        answer += li * counts[li]
+    print("Part 2:", answer)
 
 
 if __name__ == "__main__":
