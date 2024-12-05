@@ -11,6 +11,9 @@ def main():
     answer = sum(list(map(safety_check, levels)))
     print("Part 1:", answer)
 
+    answer = sum(list(map(safety_check_bruteforce, levels)))
+    print("Part 2:", answer)
+
 
 def safety_check(levels: list[int]) -> bool:
     """
@@ -26,6 +29,18 @@ def safety_check(levels: list[int]) -> bool:
     same_sign = np.all(diffs > 0) or np.all(diffs < 0)
     within_params = np.all((np.abs(diffs) >= 1) & (np.abs(diffs) <= 3))
     return bool(same_sign and within_params)
+
+
+def safety_check_bruteforce(levels: list[int]):
+    """
+    Now, the same rules apply as before, except if removing a single
+    level from an unsafe report would make it safe, the report instead
+    counts as safe.
+    """
+    safe = safety_check(levels)
+    for i in range(len(levels)):
+        safe |= safety_check(levels[:i] + levels[i + 1 :])
+    return safe
 
 
 if __name__ == "__main__":
