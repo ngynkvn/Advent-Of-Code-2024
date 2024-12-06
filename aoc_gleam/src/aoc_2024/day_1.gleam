@@ -3,16 +3,14 @@ import gleam/list
 import gleam/result
 import gleam/string
 
-pub fn pt_1(input: String) {
-  let lines =
-    input
-    |> string.split(on: "\n")
-    |> list.map(process_line)
+fn parse_input(input: String) {
+  string.split(input, on: "\n")
+  |> list.map(process_line)
+  |> list.transpose
+}
 
-  let assert [left, right] = {
-    list.transpose(lines)
-    |> list.map(list.sort(_, by: int.compare))
-  }
+pub fn pt_1(input: String) {
+  let assert [left, right] = parse_input(input)
   let assert Ok(n) = {
     list.map2(left, right, fn(x, y) { int.absolute_value(x - y) })
     |> list.reduce(int.add)
@@ -30,5 +28,5 @@ fn process_line(line: String) {
 }
 
 pub fn pt_2(input: String) {
-  0
+  todo
 }
